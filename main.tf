@@ -20,16 +20,16 @@ provider "azurerm" {
 
 # Create a resource group
 resource "azurerm_resource_group" "main" {
-  name     = "rg-vm-simple"
-  location = "East US"
+name="rg-vm-simple"
+location="East US"
 }
 
 # Create a virtual network
 resource "azurerm_virtual_network" "main" {
-  name                = "vnet-simple"
-  address_space       = ["10.0.0.0/16"]
-  location            = azurerm_resource_group.main.location
-  resource_group_name = azurerm_resource_group.main.name
+name = "vnet-simple"
+address_space=["10.0.0.0/16"]
+location = azurerm_resource_group.main.location
+resource_group_name = azurerm_resource_group.main.name
 }
 
 # Create a subnet
@@ -77,6 +77,7 @@ resource "azurerm_linux_virtual_machine" "main" {
   admin_username                  = "azureuser"
   disable_password_authentication = true
 
+  # Missing closing brace - syntax error
   network_interface_ids = [
     azurerm_network_interface.main.id,
   ]
@@ -97,7 +98,7 @@ resource "azurerm_linux_virtual_machine" "main" {
     sku       = "22_04-lts-gen2"
     version   = "latest"
   }
-}
+# Missing closing brace here
 
 # Output the public IP address
 output "public_ip_address" {
