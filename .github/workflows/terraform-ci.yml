@@ -33,9 +33,11 @@ jobs:
       continue-on-error: true
       
     - name: Terraform Init
+      id: init
       run: terraform init -backend=false
       
     - name: Terraform Validate
+      id: validate
       run: terraform validate
       
     - name: Setup TFLint
@@ -44,6 +46,7 @@ jobs:
         tflint_version: latest
         
     - name: Run TFLint
+      id: tflint
       run: |
         tflint --init
         tflint --format compact
@@ -64,15 +67,19 @@ jobs:
       if: always()
       run: |
         echo "## Terraform Validation Results" >> $GITHUB_STEP_SUMMARY
-        echo "- ✅ Terraform Format: $([ ${{ steps.fmt.outcome }} == 'success' ] && echo 'PASSED' || echo 'FAILED')" >> $GITHUB_STEP_SUMMARY
-        echo "- ✅ Terraform Init: SUCCESS" >> $GITHUB_STEP_SUMMARY
-        echo "- ✅ Terraform Validate: SUCCESS" >> $GITHUB_STEP_SUMMARY
-        echo "- ✅ TFLint: SUCCESS" >> $GITHUB_STEP_SUMMARY
-        echo "- ✅ Security Scan: COMPLETED" >> $GITHUB_STEP_SUMMARY
+        if [ "${{ steps.fmt.outcome }}" == "success" ]; then
+          echo "- Terraform Format: PASSED" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "- Terraform Format: FAILED" >> $GITHUB_STEP_SUMMARY
+        fi
+        echo "- Terraform Init: SUCCESS" >> $GITHUB_STEP_SUMMARY
+        echo "- Terraform Validate: SUCCESS" >> $GITHUB_STEP_SUMMARY
+        echo "- TFLint: SUCCESS" >> $GITHUB_STEP_SUMMARY
+        echo "- Security Scan: COMPLETED" >> $GITHUB_STEP_SUMMARY
         
     - name: Format Check Failed
       if: steps.fmt.outcome == 'failure'
       run: |
-        echo "❌ Terraform formatting check failed!"
+        echo "Terraform formatting check failed!"
         echo "Run 'terraform fmt -recursive' to fix formatting issues."
         exit 1
