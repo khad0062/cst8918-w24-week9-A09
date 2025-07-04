@@ -1,0 +1,24 @@
+{
+  "name": "infrastructure",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/khad0062/cst8918-w24-week9-A09.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/khad0062/cst8918-w24-week9-A09/issues"
+  },
+  "homepage": "https://github.com/khad0062/cst8918-w24-week9-A09#readme",
+  "description": "",
+  "devDependencies": {
+    "husky": "^8.0.0"
+  }
+}
